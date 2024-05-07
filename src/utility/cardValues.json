@@ -1,4 +1,5 @@
 [
+    { "id": 0, "value": "", "suite": "" },
     { "id": 1, "value": "2", "suite": "spade" },
     { "id": 2, "value": "3", "suite": "spade" },
     { "id": 3, "value": "4", "suite": "spade" },
