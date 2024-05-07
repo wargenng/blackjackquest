@@ -6,7 +6,7 @@ import cardValues from "../src/utility/cardValues.json";
 
 function App() {
     const [hand, setHand] = createSignal([1, 5, 7]);
-    const [dealer, setDealer] = createSignal([22, 23, 2]);
+    const [dealer, setDealer] = createSignal([22, 0]);
 
     return (
         <div class="bg-background text-primary h-screen w-screen">
@@ -17,7 +17,7 @@ function App() {
             </div>
             <div class="m-4 h-2/5 flex flex-col justify-center">
                 <div class="flex flex-wrap">
-                    {hand().map((card) => (
+                    {dealer().map((card) => (
                         <Card
                             value={cardValues[card].value}
                             suite={cardValues[card].suite}
@@ -26,7 +26,7 @@ function App() {
                     <Score score="20" />
                 </div>
                 <div class="flex flex-wrap">
-                    {dealer().map((card) => (
+                    {hand().map((card) => (
                         <Card
                             value={cardValues[card].value}
                             suite={cardValues[card].suite}

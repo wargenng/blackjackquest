@@ -16,7 +16,7 @@ export default function Card(props) {
         rounded-lg m-1`}
         >
             <h1 class="text-2xl">{props.value}</h1>
-            <img src={`src/assets/${props.suite}.svg`} />
+            {props.suite ? <img src={`src/assets/${props.suite}.svg`} /> : null}
         </div>
     );
 }
