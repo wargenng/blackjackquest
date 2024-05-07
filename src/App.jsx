@@ -1,27 +1,37 @@
+import Button from "./components/Button";
+import Card from "./components/Card";
+import Score from "./components/Score";
+
 function App() {
     return (
-        <div class="bg-background text-primary h-screen w-screen grid">
-            <div class="flex items-center justify-center">
-                <div class="ml-[-2rem] h-32 w-24 bg-red rounded-xl text-background font-bold flex flex-col items-center justify-center border-4 border-background">
-                    <h1 class="text-5xl">A</h1>
-                    <img src="src/assets/heart.svg" />
+        <div class="bg-background text-primary h-screen w-screen">
+            <div class="w-full p-3 font-bold text-2xl flex">
+                <h1>sbj</h1>
+                <div class="grow" />
+                <h1>info</h1>
+            </div>
+            <div class="m-4 h-2/5 flex flex-col justify-center">
+                <div class="flex flex-wrap">
+                    <Card value="A" suite="heart" />
+                    <Card value="K" suite="spade" />
+                    <Card value="Q" suite="diamond" />
+                    <Card value="J" suite="club" />
+                    <Card value="J" suite="club" />
+                    <Card value="J" suite="club" />
+                    <Score score="22" />
                 </div>
-                <div class="ml-[-2rem] h-32 w-24 bg-primary rounded-xl text-background font-bold flex flex-col items-center justify-center border-4 border-background">
-                    <h1 class="text-5xl">K</h1>
-                    <img src="src/assets/spade.svg" />
+                <div class="flex flex-wrap">
+                    <Card value="A" suite="heart" />
+                    <Card value="K" suite="spade" />
+                    <Card value="Q" suite="diamond" />
+                    <Card value="J" suite="club" />
+                    <Score score="22" />
                 </div>
-                <div class="ml-[-2rem] h-32 w-24 bg-red rounded-xl text-background font-bold flex flex-col items-center justify-center border-4 border-background">
-                    <h1 class="text-5xl">Q</h1>
-                    <img src="src/assets/diamond.svg" />
-                </div>
-                <div class="ml-[-2rem] h-32 w-24 bg-primary rounded-xl text-background font-bold flex flex-col items-center justify-center border-4 border-background">
-                    <h1 class="text-5xl">10</h1>
-                    <img src="src/assets/club.svg" />
-                </div>
-                <div class="ml-[-2rem] h-32 w-24 bg-red rounded-xl text-background font-bold flex flex-col items-center justify-center border-4 border-background">
-                    <h1 class="text-5xl">J</h1>
-                    <img src="src/assets/diamond.svg" />
-                </div>
+            </div>
+            <div class="m-4 flex flex-col gap-y-3">
+                <Button>deal</Button>
+                <Button>hit</Button>
+                <Button>stand</Button>
             </div>
         </div>
     );

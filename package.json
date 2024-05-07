@@ -1,7 +1,7 @@
 {
   "name": "vite-template-solid",
   "version": "0.0.0",
-  "description": "",
+  "description": "Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.",
   "scripts": {
     "start": "vite",
     "dev": "vite",
@@ -19,5 +19,7 @@
   },
   "dependencies": {
     "solid-js": "^1.8.11"
-  }
+  },
+  "main": "postcss.config.js",
+  "author": ""
 }
