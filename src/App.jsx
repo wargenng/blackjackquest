@@ -7,7 +7,6 @@ import cardValues from "../src/utility/cardValues.json";
 function App() {
     const [hand, setHand] = createSignal([1, 5, 7]);
     const [dealer, setDealer] = createSignal([22, 23, 2]);
-    console.log(cardValues);
 
     return (
         <div class="bg-background text-primary h-screen w-screen">

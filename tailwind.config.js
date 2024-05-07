@@ -6,6 +6,7 @@ module.exports = {
             background: "#F7F4EF",
             primary: "#2D2D2D",
             red: "#F15A55",
+            yellow: "#FFD650",
         },
         extend: {},
     },
