@@ -1,8 +1,14 @@
+import { createSignal } from "solid-js";
 import Button from "./components/Button";
 import Card from "./components/Card";
 import Score from "./components/Score";
+import cardValues from "../src/utility/cardValues.json";
 
 function App() {
+    const [hand, setHand] = createSignal([1, 5, 7]);
+    const [dealer, setDealer] = createSignal([22, 23, 2]);
+    console.log(cardValues);
+
     return (
         <div class="bg-background text-primary h-screen w-screen">
             <div class="w-full p-3 font-bold text-2xl flex">
@@ -12,19 +18,21 @@ function App() {
             </div>
             <div class="m-4 h-2/5 flex flex-col justify-center">
                 <div class="flex flex-wrap">
-                    <Card value="A" suite="heart" />
-                    <Card value="K" suite="spade" />
-                    <Card value="Q" suite="diamond" />
-                    <Card value="J" suite="club" />
-                    <Card value="J" suite="club" />
-                    <Card value="J" suite="club" />
-                    <Score score="22" />
+                    {hand().map((card) => (
+                        <Card
+                            value={cardValues[card].value}
+                            suite={cardValues[card].suite}
+                        />
+                    ))}
+                    <Score score="20" />
                 </div>
                 <div class="flex flex-wrap">
-                    <Card value="A" suite="heart" />
-                    <Card value="K" suite="spade" />
-                    <Card value="Q" suite="diamond" />
-                    <Card value="J" suite="club" />
+                    {dealer().map((card) => (
+                        <Card
+                            value={cardValues[card].value}
+                            suite={cardValues[card].suite}
+                        />
+                    ))}
                     <Score score="22" />
                 </div>
             </div>
