@@ -16,18 +16,13 @@ function App() {
         cardsDrawn.push(dealCard(cardsDrawn));
         setHand(cardsDrawn);
         setDealer([dealCard(cardsDrawn)]);
-        if (calculateHandValue(cardsDrawn)[0] >= 21) {
-            dealerHit();
-        }
+        checkEnd();
     };
 
     const handleHit = () => {
         const newHand = [...hand(), dealCard([...dealer(), ...hand()])];
         setHand(newHand);
-        console.log(calculateHandValue(newHand)[0]);
-        if (calculateHandValue(newHand)[0] >= 21) {
-            dealerHit();
-        }
+        checkEnd();
     };
 
     const handleStand = async () => {
@@ -44,6 +39,12 @@ function App() {
 
     const dealerHit = () => {
         setDealer([...dealer(), dealCard([...dealer(), ...hand()])]);
+    };
+
+    const checkEnd = () => {
+        if (calculateHandValue(hand())[0] >= 21) {
+            while (calculateHandValue(dealer())[0] <= 11) dealerHit();
+        }
     };
 
     return (
