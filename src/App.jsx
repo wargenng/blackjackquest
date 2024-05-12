@@ -12,6 +12,7 @@ function App() {
     const [state, setState] = createSignal(0);
 
     const handleDeal = () => {
+        if (state() !== 0) return;
         setState(1);
         let cardsDrawn = [];
         cardsDrawn.push(dealCard([]));
@@ -22,12 +23,14 @@ function App() {
     };
 
     const handleHit = () => {
+        if (state() !== 1) return;
         const newHand = [...hand(), dealCard([...dealer(), ...hand()])];
         setHand(newHand);
         checkEnd();
     };
 
     const handleStand = async () => {
+        if (state() !== 1) return;
         setState(2);
         const playerScores = calculateHandValue(hand());
         const finalizeScore =
