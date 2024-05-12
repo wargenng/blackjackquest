@@ -1,6 +1,14 @@
 export default function Score(props) {
     return (
-        <div class="text-background bg-primary/50 rounded-lg min-w-8 h-6 font-bold flex items-center justify-center m-1 p-2 text-sm">
+        <div
+            class={`text-background ${
+                props.result === "win"
+                    ? "bg-green"
+                    : props.result === "lose"
+                    ? "bg-red"
+                    : "bg-primary/50"
+            } rounded-lg min-w-8 h-6 font-bold flex items-center justify-center m-1 p-2 text-sm`}
+        >
             <h1>
                 {props.score.length > 1 ? props.score.join("/") : props.score}
             </h1>

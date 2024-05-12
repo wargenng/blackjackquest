@@ -10,9 +10,11 @@ function App() {
     const [hand, setHand] = createSignal([]);
     const [dealer, setDealer] = createSignal([]);
     const [state, setState] = createSignal(0);
+    const [result, setResult] = createSignal(null);
 
     const handleDeal = () => {
         if (state() !== 0) return;
+        setResult(null);
         setState(1);
         let cardsDrawn = [];
         cardsDrawn.push(dealCard([]));
@@ -42,6 +44,12 @@ function App() {
         )
             dealerHit();
 
+        if (
+            finalizeScore > calculateHandValue(dealer())[0] ||
+            calculateHandValue(dealer())[0] > 21
+        )
+            setResult("win");
+        else setResult("lose");
         setState(0);
     };
 
@@ -53,6 +61,8 @@ function App() {
         if (calculateHandValue(hand())[0] >= 21) {
             setState(2);
             while (calculateHandValue(dealer())[0] <= 11) dealerHit();
+            if (calculateHandValue(hand())[0] === 21) setResult("win");
+            else setResult("lose");
             setState(0);
         }
     };
@@ -85,7 +95,10 @@ function App() {
                         />
                     ))}
                     {hand().length > 0 ? (
-                        <Score score={calculateHandValue(hand())} />
+                        <Score
+                            score={calculateHandValue(hand())}
+                            result={result()}
+                        />
                     ) : null}
                 </div>
             </div>
