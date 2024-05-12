@@ -74,7 +74,7 @@ function App() {
                 <div class="grow" />
                 <h1>info</h1>
             </div>
-            <div class="m-4 h-3/5 flex flex-col justify-center">
+            <div class="m-4 h-2/3 flex flex-col justify-center">
                 <div class="flex flex-wrap">
                     {dealer().map((card) => (
                         <Card
