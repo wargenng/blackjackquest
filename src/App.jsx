@@ -9,8 +9,10 @@ import { calculateHandValue } from "./utility/calculateHandValue";
 function App() {
     const [hand, setHand] = createSignal([]);
     const [dealer, setDealer] = createSignal([]);
+    const [state, setState] = createSignal(0);
 
     const handleDeal = () => {
+        setState(1);
         let cardsDrawn = [];
         cardsDrawn.push(dealCard([]));
         cardsDrawn.push(dealCard(cardsDrawn));
@@ -26,6 +28,7 @@ function App() {
     };
 
     const handleStand = async () => {
+        setState(2);
         const playerScores = calculateHandValue(hand());
         const finalizeScore =
             playerScores.length > 1 ? playerScores[1] : playerScores[0];
@@ -35,6 +38,8 @@ function App() {
             calculateHandValue(dealer())[0] <= 21
         )
             dealerHit();
+
+        setState(0);
     };
 
     const dealerHit = () => {
@@ -43,7 +48,9 @@ function App() {
 
     const checkEnd = () => {
         if (calculateHandValue(hand())[0] >= 21) {
+            setState(2);
             while (calculateHandValue(dealer())[0] <= 11) dealerHit();
+            setState(0);
         }
     };
 
@@ -80,7 +87,12 @@ function App() {
                 </div>
             </div>
             <div class="m-4 flex flex-col gap-y-3">
-                <Button class={``} onclick={handleDeal}>
+                <Button
+                    class={`${
+                        state() === 0 ? "brightness-100" : "brightness-50"
+                    }`}
+                    onclick={handleDeal}
+                >
                     deal
                 </Button>
                 <Button class={``} onclick={handleHit}>
