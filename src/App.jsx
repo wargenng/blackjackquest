@@ -95,10 +95,22 @@ function App() {
                 >
                     deal
                 </Button>
-                <Button class={``} onclick={handleHit}>
+                <Button
+                    class={`${
+                        state() === 1 ? "brightness-100" : "brightness-50"
+                    }`}
+                    onclick={handleHit}
+                >
                     hit
                 </Button>
-                <Button onclick={handleStand}>stand</Button>
+                <Button
+                    class={`${
+                        state() === 1 ? "brightness-100" : "brightness-50"
+                    }`}
+                    onclick={handleStand}
+                >
+                    stand
+                </Button>
             </div>
         </div>
     );
