@@ -3,12 +3,48 @@ import Button from "./components/Button";
 import Card from "./components/Card";
 import Score from "./components/Score";
 import cardValues from "../src/utility/cardValues.json";
+import { dealCard } from "./utility/dealCard";
+import { calculateHandValue } from "./utility/calculateHandValue";
 
 function App() {
     const [hand, setHand] = createSignal([]);
     const [dealer, setDealer] = createSignal([]);
 
-    const state = null;
+    const handleDeal = () => {
+        let cardsDrawn = [];
+        cardsDrawn.push(dealCard([]));
+        cardsDrawn.push(dealCard(cardsDrawn));
+        setHand(cardsDrawn);
+        setDealer([dealCard(cardsDrawn)]);
+        if (calculateHandValue(cardsDrawn)[0] >= 21) {
+            dealerHit();
+        }
+    };
+
+    const handleHit = () => {
+        const newHand = [...hand(), dealCard([...dealer(), ...hand()])];
+        setHand(newHand);
+        console.log(calculateHandValue(newHand)[0]);
+        if (calculateHandValue(newHand)[0] >= 21) {
+            dealerHit();
+        }
+    };
+
+    const handleStand = async () => {
+        const playerScores = calculateHandValue(hand());
+        const finalizeScore =
+            playerScores.length > 1 ? playerScores[1] : playerScores[0];
+
+        while (
+            calculateHandValue(dealer())[0] <= finalizeScore &&
+            calculateHandValue(dealer())[0] <= 21
+        )
+            dealerHit();
+    };
+
+    const dealerHit = () => {
+        setDealer([...dealer(), dealCard([...dealer(), ...hand()])]);
+    };
 
     return (
         <div class="bg-background text-primary h-screen w-screen">
@@ -25,7 +61,10 @@ function App() {
                             suite={cardValues[card].suite}
                         />
                     ))}
-                    {dealer.length > 0 ? <Score score="20" /> : null}
+                    {dealer().length === 1 ? <Card value="?" suite="" /> : null}
+                    {dealer().length > 0 ? (
+                        <Score score={calculateHandValue(dealer())} />
+                    ) : null}
                 </div>
                 <div class="flex flex-wrap">
                     {hand().map((card) => (
@@ -34,13 +73,19 @@ function App() {
                             suite={cardValues[card].suite}
                         />
                     ))}
-                    {hand.length > 0 ? <Score score="22" /> : null}
+                    {hand().length > 0 ? (
+                        <Score score={calculateHandValue(hand())} />
+                    ) : null}
                 </div>
             </div>
             <div class="m-4 flex flex-col gap-y-3">
-                <Button>deal</Button>
-                <Button>hit</Button>
-                <Button>stand</Button>
+                <Button class={``} onclick={handleDeal}>
+                    deal
+                </Button>
+                <Button class={``} onclick={handleHit}>
+                    hit
+                </Button>
+                <Button onclick={handleStand}>stand</Button>
             </div>
         </div>
     );
