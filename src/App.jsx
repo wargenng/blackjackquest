@@ -64,7 +64,7 @@ function App() {
                 <div class="grow" />
                 <h1>info</h1>
             </div>
-            <div class="m-4 h-2/5 flex flex-col justify-center">
+            <div class="m-4 h-3/5 flex flex-col justify-center">
                 <div class="flex flex-wrap">
                     {dealer().map((card) => (
                         <Card
@@ -89,7 +89,7 @@ function App() {
                     ) : null}
                 </div>
             </div>
-            <div class="m-4 flex flex-col gap-y-3">
+            <div class="m-4 flex gap-x-3">
                 <Button
                     class={`${
                         state() === 0 ? "brightness-100" : "brightness-50"
