@@ -5,8 +5,10 @@ import Score from "./components/Score";
 import cardValues from "../src/utility/cardValues.json";
 
 function App() {
-    const [hand, setHand] = createSignal([1, 5, 7]);
-    const [dealer, setDealer] = createSignal([22, 0]);
+    const [hand, setHand] = createSignal([]);
+    const [dealer, setDealer] = createSignal([]);
+
+    const state = null;
 
     return (
         <div class="bg-background text-primary h-screen w-screen">
@@ -23,7 +25,7 @@ function App() {
                             suite={cardValues[card].suite}
                         />
                     ))}
-                    <Score score="20" />
+                    {dealer.length > 0 ? <Score score="20" /> : null}
                 </div>
                 <div class="flex flex-wrap">
                     {hand().map((card) => (
@@ -32,7 +34,7 @@ function App() {
                             suite={cardValues[card].suite}
                         />
                     ))}
-                    <Score score="22" />
+                    {hand.length > 0 ? <Score score="22" /> : null}
                 </div>
             </div>
             <div class="m-4 flex flex-col gap-y-3">
