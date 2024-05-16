@@ -12,7 +12,7 @@ function App() {
     const [state, setState] = createSignal(0);
     const [result, setResult] = createSignal(null);
 
-    const handleDeal = () => {
+    const handleDeal = async () => {
         if (state() !== 0) return;
         setResult(null);
         setState(1);
@@ -24,10 +24,11 @@ function App() {
         checkEnd();
     };
 
-    const handleHit = () => {
+    const handleHit = async () => {
         if (state() !== 1) return;
         const newHand = [...hand(), dealCard([...dealer(), ...hand()])];
         setHand(newHand);
+        await delay(700);
         checkEnd();
     };
 
@@ -41,8 +42,10 @@ function App() {
         while (
             calculateHandValue(dealer())[0] <= finalizeScore &&
             calculateHandValue(dealer())[0] <= 21
-        )
+        ) {
             dealerHit();
+            await delay(1000);
+        }
 
         if (
             finalizeScore > calculateHandValue(dealer())[0] ||
@@ -67,6 +70,10 @@ function App() {
         }
     };
 
+    function delay(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
     return (
         <div class="bg-background text-primary h-screen w-screen">
             <div class="w-full p-3 font-bold text-2xl flex">
@@ -80,9 +87,12 @@ function App() {
                         <Card
                             value={cardValues[card].value}
                             suite={cardValues[card].suite}
+                            isLastCard={dealer().at(-1) === card}
                         />
                     ))}
-                    {dealer().length === 1 ? <Card value="?" suite="" /> : null}
+                    {dealer().length === 1 ? (
+                        <Card value="?" suite="" isLastCard={true} />
+                    ) : null}
                     {dealer().length > 0 ? (
                         <Score score={calculateHandValue(dealer())} />
                     ) : null}
@@ -92,6 +102,9 @@ function App() {
                         <Card
                             value={cardValues[card].value}
                             suite={cardValues[card].suite}
+                            isLastCard={
+                                hand().at(-1) === card || hand().length < 3
+                            }
                         />
                     ))}
                     {hand().length > 0 ? (
