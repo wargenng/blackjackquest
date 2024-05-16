@@ -38,10 +38,16 @@ function App() {
         const playerScores = calculateHandValue(hand());
         const finalizeScore =
             playerScores.length > 1 ? playerScores[1] : playerScores[0];
+        const compareDealerHand = () => {
+            const hand = calculateHandValue(dealer());
+            if (hand.length < 2) {
+                return hand[0];
+            } else return hand[1];
+        };
 
         while (
-            calculateHandValue(dealer())[0] <= finalizeScore &&
-            calculateHandValue(dealer())[0] <= 21
+            compareDealerHand() <= finalizeScore &&
+            calculateHandValue(dealer())[0] < 21
         ) {
             dealerHit();
             await delay(1000);
@@ -70,9 +76,11 @@ function App() {
         }
     };
 
-    function delay(ms) {
+    const delay = (ms) => {
         return new Promise((resolve) => setTimeout(resolve, ms));
-    }
+    };
+
+    const takeHigherAce = (value) => (value.length > 1 ? value[1] : value[0]);
 
     return (
         <div class="bg-background text-primary h-screen w-screen">
@@ -94,7 +102,17 @@ function App() {
                         <Card value="?" suite="" isLastCard={true} />
                     ) : null}
                     {dealer().length > 0 ? (
-                        <Score score={calculateHandValue(dealer())} />
+                        <Score
+                            score={
+                                state() !== 2
+                                    ? calculateHandValue(dealer())
+                                    : [
+                                          takeHigherAce(
+                                              calculateHandValue(dealer())
+                                          ),
+                                      ]
+                            }
+                        />
                     ) : null}
                 </div>
                 <div class="flex flex-wrap">
@@ -109,7 +127,15 @@ function App() {
                     ))}
                     {hand().length > 0 ? (
                         <Score
-                            score={calculateHandValue(hand())}
+                            score={
+                                state() !== 1
+                                    ? [
+                                          takeHigherAce(
+                                              calculateHandValue(hand())
+                                          ),
+                                      ]
+                                    : calculateHandValue(hand())
+                            }
                             result={result()}
                         />
                     ) : null}
