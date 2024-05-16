@@ -82,7 +82,7 @@ function App() {
     return (
         <div class="bg-background text-primary h-screen w-screen">
             <div class="w-full p-3 font-bold text-2xl flex">
-                <h1>sbj</h1>
+                <h1>bjq</h1>
                 <div class="grow" />
                 <h1>info</h1>
             </div>
