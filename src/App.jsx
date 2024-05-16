@@ -53,10 +53,7 @@ function App() {
             await delay(1000);
         }
 
-        if (
-            finalizeScore > calculateHandValue(dealer())[0] ||
-            calculateHandValue(dealer())[0] > 21
-        )
+        if (finalizeScore > compareDealerHand() || compareDealerHand() > 21)
             setResult("win");
         else setResult("lose");
         setState(0);
