@@ -35,25 +35,18 @@ function App() {
     const handleStand = async () => {
         if (state() !== 1) return;
         setState(2);
-        const playerScores = calculateHandValue(hand());
-        const finalizeScore =
-            playerScores.length > 1 ? playerScores[1] : playerScores[0];
-        const compareDealerHand = () => {
-            const hand = calculateHandValue(dealer());
-            if (hand.length < 2) {
-                return hand[0];
-            } else return hand[1];
-        };
+        const playerScore = calculateHandValue(hand()).at(-1);
+        const dealerScore = () => calculateHandValue(dealer()).at(-1);
 
         while (
-            compareDealerHand() <= finalizeScore &&
+            dealerScore() <= playerScore &&
             calculateHandValue(dealer())[0] < 21
         ) {
             dealerHit();
             await delay(1000);
         }
 
-        if (finalizeScore > compareDealerHand() || compareDealerHand() > 21)
+        if (playerScore > dealerScore() || dealerScore() > 21)
             setResult("win");
         else setResult("lose");
         setState(0);
@@ -76,8 +69,6 @@ function App() {
     const delay = (ms) => {
         return new Promise((resolve) => setTimeout(resolve, ms));
     };
-
-    const takeHigherAce = (value) => (value.length > 1 ? value[1] : value[0]);
 
     return (
         <div class="bg-background text-primary h-screen w-screen">
@@ -103,11 +94,7 @@ function App() {
                             score={
                                 state() !== 2
                                     ? calculateHandValue(dealer())
-                                    : [
-                                          takeHigherAce(
-                                              calculateHandValue(dealer())
-                                          ),
-                                      ]
+                                    : calculateHandValue(dealer()).slice(-1)
                             }
                         />
                     ) : null}
@@ -126,11 +113,7 @@ function App() {
                         <Score
                             score={
                                 state() !== 1
-                                    ? [
-                                          takeHigherAce(
-                                              calculateHandValue(hand())
-                                          ),
-                                      ]
+                                    ? calculateHandValue(hand()).slice(-1)
                                     : calculateHandValue(hand())
                             }
                             result={result()}
