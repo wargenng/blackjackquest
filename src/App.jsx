@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { For, Show, createSignal } from "solid-js";
 import Button from "./components/Button";
 import Card from "./components/Card";
 import Score from "./components/Score";
@@ -46,8 +46,7 @@ function App() {
             await delay(1000);
         }
 
-        if (playerScore > dealerScore() || dealerScore() > 21)
-            setResult("win");
+        if (playerScore > dealerScore() || dealerScore() > 21) setResult("win");
         else setResult("lose");
         setState(0);
     };
@@ -79,17 +78,19 @@ function App() {
             </div>
             <div class="m-4 h-2/3 flex flex-col justify-center">
                 <div class="flex flex-wrap">
-                    {dealer().map((card) => (
-                        <Card
-                            value={cardValues[card].value}
-                            suite={cardValues[card].suite}
-                            isLastCard={dealer().at(-1) === card}
-                        />
-                    ))}
-                    {dealer().length === 1 ? (
+                    <For each={dealer()}>
+                        {(card) => (
+                            <Card
+                                value={cardValues[card].value}
+                                suite={cardValues[card].suite}
+                                isLastCard={dealer().at(-1) === card}
+                            />
+                        )}
+                    </For>
+                    <Show when={dealer().length === 1}>
                         <Card value="?" suite="" isLastCard={true} />
-                    ) : null}
-                    {dealer().length > 0 ? (
+                    </Show>
+                    <Show when={dealer().length > 0}>
                         <Score
                             score={
                                 state() !== 2
@@ -97,19 +98,21 @@ function App() {
                                     : calculateHandValue(dealer()).slice(-1)
                             }
                         />
-                    ) : null}
+                    </Show>
                 </div>
                 <div class="flex flex-wrap">
-                    {hand().map((card) => (
-                        <Card
-                            value={cardValues[card].value}
-                            suite={cardValues[card].suite}
-                            isLastCard={
-                                hand().at(-1) === card || hand().length < 3
-                            }
-                        />
-                    ))}
-                    {hand().length > 0 ? (
+                    <For each={hand()}>
+                        {(card) => (
+                            <Card
+                                value={cardValues[card].value}
+                                suite={cardValues[card].suite}
+                                isLastCard={
+                                    hand().at(-1) === card || hand().length < 3
+                                }
+                            />
+                        )}
+                    </For>
+                    <Show when={hand().length > 0}>
                         <Score
                             score={
                                 state() !== 1
@@ -118,7 +121,7 @@ function App() {
                             }
                             result={result()}
                         />
-                    ) : null}
+                    </Show>
                 </div>
             </div>
             <div class="m-4 flex gap-x-3">
